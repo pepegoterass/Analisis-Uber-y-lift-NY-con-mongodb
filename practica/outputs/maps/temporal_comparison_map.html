@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_fda63d3a28c40422189b1959b8653a6e {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+        <div style="position: fixed; 
+                    bottom: 50px; left: 50px; width: 320px; height: 140px; 
+                    background-color: white; border:2px solid grey; z-index:9999; 
+                    font-size:13px; padding: 12px; border-radius: 5px;">
+            <p style="margin: 0; font-weight: bold; font-size: 14px;">⏰ Rush Hour Comparison</p>
+            <p style="margin: 8px 0 5px 0;">🔵 <b>Morning Rush (6-9 AM)</b></p>
+            <p style="margin: 0 0 8px 20px; font-size: 11px;">Residential zones - commuters leaving home</p>
+            <p style="margin: 5px 0;">🔴 <b>Evening Rush (5-8 PM)</b></p>
+            <p style="margin: 0 0 0 20px; font-size: 11px;">Commercial zones - leaving work/entertainment</p>
+            <p style="margin: 8px 0 0 0; font-size: 10px; opacity: 0.7;">Circle size = Trip volume</p>
+        </div>
+        
+    
+            <div class="folium-map" id="map_fda63d3a28c40422189b1959b8653a6e" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_fda63d3a28c40422189b1959b8653a6e = L.map(
+                "map_fda63d3a28c40422189b1959b8653a6e",
+                {
+                    center: [40.7589, -73.9851],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_697ad6f9fcbe27ed033efbb4e562ba2d = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_697ad6f9fcbe27ed033efbb4e562ba2d.addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+            var circle_marker_bff5b62204bffe3447e33c0395b1250c = L.circleMarker(
+                [40.6413, -73.7781],
+                {"bubblingMouseEvents": true, "color": "#2980b9", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3498db", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 34.63327666005478, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_c4b64c20081e5fb0016af1d62ad49eaa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3966c5b2f9bf28aa23f48248a508a103 = $(`<div id="html_3966c5b2f9bf28aa23f48248a508a103" style="width: 100.0%; height: 100.0%;"><b>🌅 Morning Rush - Zone 132</b><br>6-9 AM Pickups: 6,451 (Sample)<br>Real Est.: 258,040</div>`)[0];
+                popup_c4b64c20081e5fb0016af1d62ad49eaa.setContent(html_3966c5b2f9bf28aa23f48248a508a103);
+            
+        
+
+        circle_marker_bff5b62204bffe3447e33c0395b1250c.bindPopup(popup_c4b64c20081e5fb0016af1d62ad49eaa)
+        ;
+
+        
+    
+    
+            circle_marker_bff5b62204bffe3447e33c0395b1250c.bindTooltip(
+                `<div>
+                     Morning: Zone 132
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0a08d19485a2851e5ec1dff9880c81b8 = L.circleMarker(
+                [40.774, -73.8728],
+                {"bubblingMouseEvents": true, "color": "#2980b9", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3498db", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 28.31420610182299, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_84f9b7de89447701ed66d0759b9cc2b9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_63ef99fdac05da742874111baead606f = $(`<div id="html_63ef99fdac05da742874111baead606f" style="width: 100.0%; height: 100.0%;"><b>🌅 Morning Rush - Zone 138</b><br>6-9 AM Pickups: 5,113 (Sample)<br>Real Est.: 204,520</div>`)[0];
+                popup_84f9b7de89447701ed66d0759b9cc2b9.setContent(html_63ef99fdac05da742874111baead606f);
+            
+        
+
+        circle_marker_0a08d19485a2851e5ec1dff9880c81b8.bindPopup(popup_84f9b7de89447701ed66d0759b9cc2b9)
+        ;
+
+        
+    
+    
+            circle_marker_0a08d19485a2851e5ec1dff9880c81b8.bindTooltip(
+                `<div>
+                     Morning: Zone 138
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ff6c058275042463d2d4bd053d106993 = L.circleMarker(
+                [40.7168, -74.0095],
+                {"bubblingMouseEvents": true, "color": "#2980b9", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3498db", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 26.425096816850854, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_b2afba6f836f7cdc9ed5284cfd166e33 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bcfaca0ef16e2ebcf3c981ba207f5df7 = $(`<div id="html_bcfaca0ef16e2ebcf3c981ba207f5df7" style="width: 100.0%; height: 100.0%;"><b>🌅 Morning Rush - Zone 231</b><br>6-9 AM Pickups: 4,713 (Sample)<br>Real Est.: 188,520</div>`)[0];
+                popup_b2afba6f836f7cdc9ed5284cfd166e33.setContent(html_bcfaca0ef16e2ebcf3c981ba207f5df7);
+            
+        
+
+        circle_marker_ff6c058275042463d2d4bd053d106993.bindPopup(popup_b2afba6f836f7cdc9ed5284cfd166e33)
+        ;
+
+        
+    
+    
+            circle_marker_ff6c058275042463d2d4bd053d106993.bindTooltip(
+                `<div>
+                     Morning: Zone 231
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_82652628d7bb05ada0204a3c47c667f1 = L.circleMarker(
+                [40.774, -73.8728],
+                {"bubblingMouseEvents": true, "color": "#c0392b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 37.5, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_17590fb89f11dc1affc6bcaedd6e3f6c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_24484fccfab01c8dfce90e8f389be130 = $(`<div id="html_24484fccfab01c8dfce90e8f389be130" style="width: 100.0%; height: 100.0%;"><b>🌆 Evening Rush - Zone 138</b><br>5-8 PM Pickups: 14,857 (Sample)<br>Real Est.: 594,280</div>`)[0];
+                popup_17590fb89f11dc1affc6bcaedd6e3f6c.setContent(html_24484fccfab01c8dfce90e8f389be130);
+            
+        
+
+        circle_marker_82652628d7bb05ada0204a3c47c667f1.bindPopup(popup_17590fb89f11dc1affc6bcaedd6e3f6c)
+        ;
+
+        
+    
+    
+            circle_marker_82652628d7bb05ada0204a3c47c667f1.bindTooltip(
+                `<div>
+                     Evening: Zone 138
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_872cde178fa9f99b8daf906dfb0f23f6 = L.circleMarker(
+                [40.6413, -73.7781],
+                {"bubblingMouseEvents": true, "color": "#c0392b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 31.10570774718988, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_964c282173c86bf5487f026e9cf66d16 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_65da2d292f42c1d2a295ef92764499e2 = $(`<div id="html_65da2d292f42c1d2a295ef92764499e2" style="width: 100.0%; height: 100.0%;"><b>🌆 Evening Rush - Zone 132</b><br>5-8 PM Pickups: 12,007 (Sample)<br>Real Est.: 480,280</div>`)[0];
+                popup_964c282173c86bf5487f026e9cf66d16.setContent(html_65da2d292f42c1d2a295ef92764499e2);
+            
+        
+
+        circle_marker_872cde178fa9f99b8daf906dfb0f23f6.bindPopup(popup_964c282173c86bf5487f026e9cf66d16)
+        ;
+
+        
+    
+    
+            circle_marker_872cde178fa9f99b8daf906dfb0f23f6.bindTooltip(
+                `<div>
+                     Evening: Zone 132
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0657fae25816893d425e5b839e07ece6 = L.circleMarker(
+                [40.7589, -73.9851],
+                {"bubblingMouseEvents": true, "color": "#c0392b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 28.052152745058446, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_1f696a86e0397bcafcb40b3637c2f187 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_53bed72df3328fbef003c46982c41d5f = $(`<div id="html_53bed72df3328fbef003c46982c41d5f" style="width: 100.0%; height: 100.0%;"><b>🌆 Evening Rush - Zone 161</b><br>5-8 PM Pickups: 10,646 (Sample)<br>Real Est.: 425,840</div>`)[0];
+                popup_1f696a86e0397bcafcb40b3637c2f187.setContent(html_53bed72df3328fbef003c46982c41d5f);
+            
+        
+
+        circle_marker_0657fae25816893d425e5b839e07ece6.bindPopup(popup_1f696a86e0397bcafcb40b3637c2f187)
+        ;
+
+        
+    
+    
+            circle_marker_0657fae25816893d425e5b839e07ece6.bindTooltip(
+                `<div>
+                     Evening: Zone 161
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8e408bad5c1f63a6fe3a9f317603ccf8 = L.circleMarker(
+                [40.7794, -73.9632],
+                {"bubblingMouseEvents": true, "color": "#c0392b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 24.839301339435952, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_755f6ff34dbdab729164cbeb7794a92c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2ec60242ebb426ff53c51d8e06f01473 = $(`<div id="html_2ec60242ebb426ff53c51d8e06f01473" style="width: 100.0%; height: 100.0%;"><b>🌆 Evening Rush - Zone 246</b><br>5-8 PM Pickups: 9,214 (Sample)<br>Real Est.: 368,560</div>`)[0];
+                popup_755f6ff34dbdab729164cbeb7794a92c.setContent(html_2ec60242ebb426ff53c51d8e06f01473);
+            
+        
+
+        circle_marker_8e408bad5c1f63a6fe3a9f317603ccf8.bindPopup(popup_755f6ff34dbdab729164cbeb7794a92c)
+        ;
+
+        
+    
+    
+            circle_marker_8e408bad5c1f63a6fe3a9f317603ccf8.bindTooltip(
+                `<div>
+                     Evening: Zone 246
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d6ce03a001003b67539fdf21a2568d15 = L.circleMarker(
+                [40.7168, -74.0095],
+                {"bubblingMouseEvents": true, "color": "#c0392b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 23.45274954566871, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_ea13742f7dfb21c7228983fd71fb6266 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f8aec207b61799163b391f53a8c3188d = $(`<div id="html_f8aec207b61799163b391f53a8c3188d" style="width: 100.0%; height: 100.0%;"><b>🌆 Evening Rush - Zone 231</b><br>5-8 PM Pickups: 8,596 (Sample)<br>Real Est.: 343,840</div>`)[0];
+                popup_ea13742f7dfb21c7228983fd71fb6266.setContent(html_f8aec207b61799163b391f53a8c3188d);
+            
+        
+
+        circle_marker_d6ce03a001003b67539fdf21a2568d15.bindPopup(popup_ea13742f7dfb21c7228983fd71fb6266)
+        ;
+
+        
+    
+    
+            circle_marker_d6ce03a001003b67539fdf21a2568d15.bindTooltip(
+                `<div>
+                     Evening: Zone 231
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5c24f6eed17ddfe38d1966ec312ef45b = L.circleMarker(
+                [40.7359, -73.9911],
+                {"bubblingMouseEvents": true, "color": "#c0392b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 23.401146485382878, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_afe5b7412c8cb0ab065e2102611db182 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b8b150a23920f4fa1b7dfd7d4e42c06a = $(`<div id="html_b8b150a23920f4fa1b7dfd7d4e42c06a" style="width: 100.0%; height: 100.0%;"><b>🌆 Evening Rush - Zone 234</b><br>5-8 PM Pickups: 8,573 (Sample)<br>Real Est.: 342,920</div>`)[0];
+                popup_afe5b7412c8cb0ab065e2102611db182.setContent(html_b8b150a23920f4fa1b7dfd7d4e42c06a);
+            
+        
+
+        circle_marker_5c24f6eed17ddfe38d1966ec312ef45b.bindPopup(popup_afe5b7412c8cb0ab065e2102611db182)
+        ;
+
+        
+    
+    
+            circle_marker_5c24f6eed17ddfe38d1966ec312ef45b.bindTooltip(
+                `<div>
+                     Evening: Zone 234
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ddd136f5cd0e908747fb9eff6533b94e = L.circleMarker(
+                [40.7489, -73.968],
+                {"bubblingMouseEvents": true, "color": "#c0392b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 22.22998137802607, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_14971896240783d9db46156dfd8214ce = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cc35771bb4aa862055072fd1f0be3181 = $(`<div id="html_cc35771bb4aa862055072fd1f0be3181" style="width: 100.0%; height: 100.0%;"><b>🌆 Evening Rush - Zone 79</b><br>5-8 PM Pickups: 8,051 (Sample)<br>Real Est.: 322,040</div>`)[0];
+                popup_14971896240783d9db46156dfd8214ce.setContent(html_cc35771bb4aa862055072fd1f0be3181);
+            
+        
+
+        circle_marker_ddd136f5cd0e908747fb9eff6533b94e.bindPopup(popup_14971896240783d9db46156dfd8214ce)
+        ;
+
+        
+    
+    
+            circle_marker_ddd136f5cd0e908747fb9eff6533b94e.bindTooltip(
+                `<div>
+                     Evening: Zone 79
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5eaaf4941062595b530fa89bb1fd4c94 = L.circleMarker(
+                [40.7282, -73.9776],
+                {"bubblingMouseEvents": true, "color": "#c0392b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 22.178378317740236, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_ba58fd76f9a7b2a70cf48c1df2e97a37 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9132d56e8c731579edb186e608f84e12 = $(`<div id="html_9132d56e8c731579edb186e608f84e12" style="width: 100.0%; height: 100.0%;"><b>🌆 Evening Rush - Zone 230</b><br>5-8 PM Pickups: 8,028 (Sample)<br>Real Est.: 321,120</div>`)[0];
+                popup_ba58fd76f9a7b2a70cf48c1df2e97a37.setContent(html_9132d56e8c731579edb186e608f84e12);
+            
+        
+
+        circle_marker_5eaaf4941062595b530fa89bb1fd4c94.bindPopup(popup_ba58fd76f9a7b2a70cf48c1df2e97a37)
+        ;
+
+        
+    
+    
+            circle_marker_5eaaf4941062595b530fa89bb1fd4c94.bindTooltip(
+                `<div>
+                     Evening: Zone 230
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_42f063b8f539f26808b1793d92e82bc1 = L.circleMarker(
+                [40.715, -74.0094],
+                {"bubblingMouseEvents": true, "color": "#c0392b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 22.066197751901466, "stroke": true, "weight": 2}
+            ).addTo(map_fda63d3a28c40422189b1959b8653a6e);
+        
+    
+        var popup_b6ca08a97fa1a87d58dcf292893d36dd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e2265eaa83af3a912ae8790b0c024c61 = $(`<div id="html_e2265eaa83af3a912ae8790b0c024c61" style="width: 100.0%; height: 100.0%;"><b>🌆 Evening Rush - Zone 68</b><br>5-8 PM Pickups: 7,978 (Sample)<br>Real Est.: 319,120</div>`)[0];
+                popup_b6ca08a97fa1a87d58dcf292893d36dd.setContent(html_e2265eaa83af3a912ae8790b0c024c61);
+            
+        
+
+        circle_marker_42f063b8f539f26808b1793d92e82bc1.bindPopup(popup_b6ca08a97fa1a87d58dcf292893d36dd)
+        ;
+
+        
+    
+    
+            circle_marker_42f063b8f539f26808b1793d92e82bc1.bindTooltip(
+                `<div>
+                     Evening: Zone 68
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>

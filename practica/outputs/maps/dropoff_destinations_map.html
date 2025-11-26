@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a62aac48f8cbf53e911ed9b0a3fac03c {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+        <div style="position: fixed; 
+                    bottom: 50px; left: 50px; width: 280px; height: 120px; 
+                    background-color: white; border:2px solid grey; z-index:9999; 
+                    font-size:13px; padding: 10px; border-radius: 5px;">
+            <p style="margin: 0; font-weight: bold;">🎯 Dropoff Destinations</p>
+            <p style="margin: 5px 0; font-size: 11px;">Jan-Jun 2025 | Top 20 Zones</p>
+            <p style="margin: 5px 0; font-size: 11px;">🔴 Circle size = Dropoff volume</p>
+            <p style="margin: 5px 0; font-size: 11px;">Sample Rate: 1 in 40</p>
+        </div>
+        
+    
+            <div class="folium-map" id="map_a62aac48f8cbf53e911ed9b0a3fac03c" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a62aac48f8cbf53e911ed9b0a3fac03c = L.map(
+                "map_a62aac48f8cbf53e911ed9b0a3fac03c",
+                {
+                    center: [40.7589, -73.9851],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_857b29deefe50917285c4d0bb42d77a4 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_857b29deefe50917285c4d0bb42d77a4.addTo(map_a62aac48f8cbf53e911ed9b0a3fac03c);
+        
+    
+            var circle_marker_00ef43a109af947ae2610cebf477bfcb = L.circleMarker(
+                [40.774, -73.8728],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#c0392b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 24.586093155440505, "stroke": true, "weight": 2}
+            ).addTo(map_a62aac48f8cbf53e911ed9b0a3fac03c);
+        
+    
+        var popup_fb9210d0d464cb4c59211493476a9c38 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c6237bf2e884f7bb9ad4fad4be2e00a1 = $(`<div id="html_c6237bf2e884f7bb9ad4fad4be2e00a1" style="width: 100.0%; height: 100.0%;"><b>🎯 Zone 138</b><br>Dropoffs (Sample): 63,962.0<br>Real Est.: 2,558,480.0<br>Avg Fare: $48.84</div>`)[0];
+                popup_fb9210d0d464cb4c59211493476a9c38.setContent(html_c6237bf2e884f7bb9ad4fad4be2e00a1);
+            
+        
+
+        circle_marker_00ef43a109af947ae2610cebf477bfcb.bindPopup(popup_fb9210d0d464cb4c59211493476a9c38)
+        ;
+
+        
+    
+    
+            circle_marker_00ef43a109af947ae2610cebf477bfcb.bindTooltip(
+                `<div>
+                     Zone 138: 63,962.0 dropoffs
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a0e89b90db7d558499a22630a3736c8a = L.circleMarker(
+                [40.6413, -73.7781],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#c0392b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 24.285391065726532, "stroke": true, "weight": 2}
+            ).addTo(map_a62aac48f8cbf53e911ed9b0a3fac03c);
+        
+    
+        var popup_030f75dd991556ab497d935842b65d68 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bd57140c98ce0db74e094c517d451bd0 = $(`<div id="html_bd57140c98ce0db74e094c517d451bd0" style="width: 100.0%; height: 100.0%;"><b>🎯 Zone 132</b><br>Dropoffs (Sample): 62,963.0<br>Real Est.: 2,518,520.0<br>Avg Fare: $63.74</div>`)[0];
+                popup_030f75dd991556ab497d935842b65d68.setContent(html_bd57140c98ce0db74e094c517d451bd0);
+            
+        
+
+        circle_marker_a0e89b90db7d558499a22630a3736c8a.bindPopup(popup_030f75dd991556ab497d935842b65d68)
+        ;
+
+        
+    
+    
+            circle_marker_a0e89b90db7d558499a22630a3736c8a.bindTooltip(
+                `<div>
+                     Zone 132: 62,963.0 dropoffs
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_702d51181448cf5372bbc5de1b1adc8a = L.circleMarker(
+                [40.715, -74.0094],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#c0392b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.671352281478026, "stroke": true, "weight": 2}
+            ).addTo(map_a62aac48f8cbf53e911ed9b0a3fac03c);
+        
+    
+        var popup_58012bc31b5deed68d2f897f1ffce11b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fd2f7cec0bc2e51625024e5896f09d45 = $(`<div id="html_fd2f7cec0bc2e51625024e5896f09d45" style="width: 100.0%; height: 100.0%;"><b>🎯 Zone 68</b><br>Dropoffs (Sample): 31,023.0<br>Real Est.: 1,240,920.0<br>Avg Fare: $28.15</div>`)[0];
+                popup_58012bc31b5deed68d2f897f1ffce11b.setContent(html_fd2f7cec0bc2e51625024e5896f09d45);
+            
+        
+
+        circle_marker_702d51181448cf5372bbc5de1b1adc8a.bindPopup(popup_58012bc31b5deed68d2f897f1ffce11b)
+        ;
+
+        
+    
+    
+            circle_marker_702d51181448cf5372bbc5de1b1adc8a.bindTooltip(
+                `<div>
+                     Zone 68: 31,023.0 dropoffs
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4d011abc0ffac615ba413074b4a02e15 = L.circleMarker(
+                [40.7589, -73.9851],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#c0392b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.645466015496643, "stroke": true, "weight": 2}
+            ).addTo(map_a62aac48f8cbf53e911ed9b0a3fac03c);
+        
+    
+        var popup_5aa43ec85e69ef23241f756a920c2f61 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_352100b1b349633ff927d6be7386f091 = $(`<div id="html_352100b1b349633ff927d6be7386f091" style="width: 100.0%; height: 100.0%;"><b>🎯 Zone 161</b><br>Dropoffs (Sample): 30,937.0<br>Real Est.: 1,237,480.0<br>Avg Fare: $30.64</div>`)[0];
+                popup_5aa43ec85e69ef23241f756a920c2f61.setContent(html_352100b1b349633ff927d6be7386f091);
+            
+        
+
+        circle_marker_4d011abc0ffac615ba413074b4a02e15.bindPopup(popup_5aa43ec85e69ef23241f756a920c2f61)
+        ;
+
+        
+    
+    
+            circle_marker_4d011abc0ffac615ba413074b4a02e15.bindTooltip(
+                `<div>
+                     Zone 161: 30,937.0 dropoffs
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_429241fe4fca86cdcf508324372b5ca6 = L.circleMarker(
+                [40.7489, -73.968],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#c0392b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.419412692798751, "stroke": true, "weight": 2}
+            ).addTo(map_a62aac48f8cbf53e911ed9b0a3fac03c);
+        
+    
+        var popup_b83ace8db4c11e7a33039e4913b6f20d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a6719881bcef0924dfd29f024ab39bbe = $(`<div id="html_a6719881bcef0924dfd29f024ab39bbe" style="width: 100.0%; height: 100.0%;"><b>🎯 Zone 79</b><br>Dropoffs (Sample): 30,186.0<br>Real Est.: 1,207,440.0<br>Avg Fare: $23.96</div>`)[0];
+                popup_b83ace8db4c11e7a33039e4913b6f20d.setContent(html_a6719881bcef0924dfd29f024ab39bbe);
+            
+        
+
+        circle_marker_429241fe4fca86cdcf508324372b5ca6.bindPopup(popup_b83ace8db4c11e7a33039e4913b6f20d)
+        ;
+
+        
+    
+    
+            circle_marker_429241fe4fca86cdcf508324372b5ca6.bindTooltip(
+                `<div>
+                     Zone 79: 30,186.0 dropoffs
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_97e7dbdfeeebb28334d9619b23f67dc5 = L.circleMarker(
+                [40.7359, -73.9911],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#c0392b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.850215844301134, "stroke": true, "weight": 2}
+            ).addTo(map_a62aac48f8cbf53e911ed9b0a3fac03c);
+        
+    
+        var popup_93e554b2d05ce686b29b09f79b2820b0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_709de010754931d5164886da8bd3aac0 = $(`<div id="html_709de010754931d5164886da8bd3aac0" style="width: 100.0%; height: 100.0%;"><b>🎯 Zone 234</b><br>Dropoffs (Sample): 28,295.0<br>Real Est.: 1,131,800.0<br>Avg Fare: $26.19</div>`)[0];
+                popup_93e554b2d05ce686b29b09f79b2820b0.setContent(html_709de010754931d5164886da8bd3aac0);
+            
+        
+
+        circle_marker_97e7dbdfeeebb28334d9619b23f67dc5.bindPopup(popup_93e554b2d05ce686b29b09f79b2820b0)
+        ;
+
+        
+    
+    
+            circle_marker_97e7dbdfeeebb28334d9619b23f67dc5.bindTooltip(
+                `<div>
+                     Zone 234: 28,295.0 dropoffs
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c9b336b8584e2918f8a53a0b15f1a1b9 = L.circleMarker(
+                [40.7614, -73.9776],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#c0392b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.78881121336855, "stroke": true, "weight": 2}
+            ).addTo(map_a62aac48f8cbf53e911ed9b0a3fac03c);
+        
+    
+        var popup_5539739f3e76491b0ac7eeaf0c1a6f6d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e00f96fece56549c24b0707c35a021c4 = $(`<div id="html_e00f96fece56549c24b0707c35a021c4" style="width: 100.0%; height: 100.0%;"><b>🎯 Zone 231</b><br>Dropoffs (Sample): 28,091.0<br>Real Est.: 1,123,640.0<br>Avg Fare: $29.41</div>`)[0];
+                popup_5539739f3e76491b0ac7eeaf0c1a6f6d.setContent(html_e00f96fece56549c24b0707c35a021c4);
+            
+        
+
+        circle_marker_c9b336b8584e2918f8a53a0b15f1a1b9.bindPopup(popup_5539739f3e76491b0ac7eeaf0c1a6f6d)
+        ;
+
+        
+    
+    
+            circle_marker_c9b336b8584e2918f8a53a0b15f1a1b9.bindTooltip(
+                `<div>
+                     Zone 231: 28,091.0 dropoffs
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_367c547d0c07b7e5ad44edccf577621a = L.circleMarker(
+                [40.7472, -73.9754],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#c0392b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.125701399915217, "stroke": true, "weight": 2}
+            ).addTo(map_a62aac48f8cbf53e911ed9b0a3fac03c);
+        
+    
+        var popup_bc4755ca36630870837b816481c83619 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_60d264c5946d87f39bc1e0e85c91a92a = $(`<div id="html_60d264c5946d87f39bc1e0e85c91a92a" style="width: 100.0%; height: 100.0%;"><b>🎯 Zone 170</b><br>Dropoffs (Sample): 25,888.0<br>Real Est.: 1,035,520.0<br>Avg Fare: $25.32</div>`)[0];
+                popup_bc4755ca36630870837b816481c83619.setContent(html_60d264c5946d87f39bc1e0e85c91a92a);
+            
+        
+
+        circle_marker_367c547d0c07b7e5ad44edccf577621a.bindPopup(popup_bc4755ca36630870837b816481c83619)
+        ;
+
+        
+    
+    
+            circle_marker_367c547d0c07b7e5ad44edccf577621a.bindTooltip(
+                `<div>
+                     Zone 170: 25,888.0 dropoffs
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>

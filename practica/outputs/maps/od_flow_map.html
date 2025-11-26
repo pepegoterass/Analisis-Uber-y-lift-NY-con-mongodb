@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_617e95997e5695648ab94f604d3891f7 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+        <h2 style="position: fixed; 
+                   top: 20px; left: 50%; transform: translateX(-50%);
+                   background-color: rgba(255,255,255,0.9); 
+                   padding: 15px 25px; margin: 0;
+                   border-radius: 8px; border: 2px solid #2c3e50;
+                   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                   font-family: Arial, sans-serif; color: #2c3e50;
+                   z-index: 9999; text-align: center;">
+            🚗 NYC HVFHV Origin-Destination Flow Analysis
+            <br><span style="font-size: 14px; color: #7f8c8d; font-weight: normal;">
+                High-Volume For-Hire Vehicle Trips | Jan-Jun 2025
+            </span>
+        </h2>
+        
+    
+        <div style="position: fixed; 
+                    top: 20px; right: 20px; width: 280px; height: 140px;
+                    background-color: rgba(248,249,250,0.95); 
+                    border: 2px solid #3498db; border-radius: 8px;
+                    padding: 15px; z-index: 9998; 
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+            <h4 style="margin: 0 0 10px 0; color: #2c3e50; font-size: 14px;">
+                📊 Flow Statistics
+            </h4>
+            <p style="margin: 5px 0; font-size: 12px; color: #34495e;">
+                <b>Total Flows Mapped:</b> 20<br>
+                <b>Sample Trips:</b> 54,211<br>
+                <b>Est. Real Trips:</b> 2,168,440<br>
+                <b>Avg Distance:</b> 7.0 miles<br>
+                <b>Time Period:</b> Jan-Jun 2025
+            </p>
+        </div>
+        
+    
+        <div style="position: fixed; 
+                    bottom: 20px; left: 20px; width: 350px; height: 220px; 
+                    background-color: rgba(255,255,255,0.95); border:2px solid #34495e; z-index:9999; 
+                    font-size:12px; padding: 18px; border-radius: 10px; color: #2c3e50; 
+                    box-shadow: 0 8px 16px rgba(0,0,0,0.15);">
+            <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #2c3e50; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px;">
+                🚗 NYC Trip Flow Legend
+            </h3>
+            <div style="margin: 8px 0;">
+                <h4 style="margin: 8px 0 5px 0; font-size: 13px; color: #2980b9;">Distance Categories:</h4>
+                <p style="margin: 3px 0; font-size: 11px;">
+                    <span style="color:#1f77b4; font-weight: bold; font-size: 16px;">━━━</span> 
+                    <span><b>Short trips</b> (&lt;2 miles)</span>
+                </p>
+                <p style="margin: 3px 0; font-size: 11px;">
+                    <span style="color:#ff7f0e; font-weight: bold; font-size: 16px;">━━━</span> 
+                    <span><b>Medium trips</b> (2-5 miles)</span>
+                </p>
+                <p style="margin: 3px 0; font-size: 11px;">
+                    <span style="color:#d62728; font-weight: bold; font-size: 16px;">━━━</span> 
+                    <span><b>Long trips</b> (&gt;5 miles)</span>
+                </p>
+                <h4 style="margin: 8px 0 5px 0; font-size: 13px; color: #27ae60;">Flow Elements:</h4>
+                <p style="margin: 3px 0; font-size: 11px;">
+                    <span style="color:#2ecc71;">●</span> Origin zones &nbsp;&nbsp;
+                    <span style="color:#e74c3c;">●</span> Destination zones &nbsp;&nbsp;
+                    <span style="font-size: 14px;">➤</span> Direction
+                </p>
+            </div>
+            <p style="margin: 8px 0 0 0; font-size: 10px; color: #7f8c8d; font-style: italic; border-top: 1px solid #ecf0f1; padding-top: 5px;">
+                Line thickness ∝ Trip volume • 20 flows mapped • Uber/Lyft data
+            </p>
+        </div>
+        
+    
+            <div class="folium-map" id="map_617e95997e5695648ab94f604d3891f7" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_617e95997e5695648ab94f604d3891f7 = L.map(
+                "map_617e95997e5695648ab94f604d3891f7",
+                {
+                    center: [40.7589, -73.9851],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 13,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_e87f91012b68a15b363ed47ddb8f83ef = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_e87f91012b68a15b363ed47ddb8f83ef.addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var poly_line_1118918073a0bcb810985e7fd1761978 = L.polyline(
+                [[40.7589, -73.9851], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#d62728", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 12.0}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_45e90bee39c7fc4b9ffb2f262c81058d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4704897baae4eced79f13511fa8e934d = $(`<div id="html_4704897baae4eced79f13511fa8e934d" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #d62728; margin: 5px 0;'>Zone 230 → 265</h4><p><b>Trips:</b> 3,338.0 (sample)<br><b>Estimated Real:</b> 133,520.0<br><b>Distance:</b> 17.5 miles<br><b>Avg Fare:</b> $86.58</p></div></div>`)[0];
+                popup_45e90bee39c7fc4b9ffb2f262c81058d.setContent(html_4704897baae4eced79f13511fa8e934d);
+            
+        
+
+        poly_line_1118918073a0bcb810985e7fd1761978.bindPopup(popup_45e90bee39c7fc4b9ffb2f262c81058d)
+        ;
+
+        
+    
+    
+            poly_line_1118918073a0bcb810985e7fd1761978.bindTooltip(
+                `<div>
+                     Zone 230 → 265 | 3,338.0 trips | 17.5mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_4f99443b823d36f72b1da552987013f5 = L.marker(
+                [40.7001, -73.88159999999999],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_b3a593fd8607a5a991d86d328ff61b86 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #d62728;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_4f99443b823d36f72b1da552987013f5.bindTooltip(
+                `<div>
+                     Flow direction: 230 → 265
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4f99443b823d36f72b1da552987013f5.setIcon(div_icon_b3a593fd8607a5a991d86d328ff61b86);
+            
+    
+            var circle_marker_f271ff1f95dfc78e309e97bcd08105da = L.circleMarker(
+                [40.7589, -73.9851],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_f271ff1f95dfc78e309e97bcd08105da.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 230
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5a6807c6918b8653730c72d2cccb417b = L.circleMarker(
+                [40.6413, -73.7781],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_5a6807c6918b8653730c72d2cccb417b.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 265
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_36b228da47cc86b9a7c76d23cc8f10ad = L.polyline(
+                [[40.7489, -73.8577], [40.7359, -73.9911]],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1f77b4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 11.364889155182745}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_11b63825d1811df831926320f6854bd3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e358029e3091325a09ab5e84bf26286a = $(`<div id="html_e358029e3091325a09ab5e84bf26286a" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #1f77b4; margin: 5px 0;'>Zone 255 → 112</h4><p><b>Trips:</b> 3,126.0 (sample)<br><b>Estimated Real:</b> 125,040.0<br><b>Distance:</b> 1.3 miles<br><b>Avg Fare:</b> $12.10</p></div></div>`)[0];
+                popup_11b63825d1811df831926320f6854bd3.setContent(html_e358029e3091325a09ab5e84bf26286a);
+            
+        
+
+        poly_line_36b228da47cc86b9a7c76d23cc8f10ad.bindPopup(popup_11b63825d1811df831926320f6854bd3)
+        ;
+
+        
+    
+    
+            poly_line_36b228da47cc86b9a7c76d23cc8f10ad.bindTooltip(
+                `<div>
+                     Zone 255 → 112 | 3,126.0 trips | 1.3mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_a24e277a62c9ac07b1f2696c8f0fe72c = L.marker(
+                [40.7424, -73.92439999999999],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_fb569a1cde025a120f30f55d3da7b2ca = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #1f77b4;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_a24e277a62c9ac07b1f2696c8f0fe72c.bindTooltip(
+                `<div>
+                     Flow direction: 255 → 112
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a24e277a62c9ac07b1f2696c8f0fe72c.setIcon(div_icon_fb569a1cde025a120f30f55d3da7b2ca);
+            
+    
+            var circle_marker_d82d088ae5ea41f3b59c75959dbacb15 = L.circleMarker(
+                [40.7489, -73.8577],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_d82d088ae5ea41f3b59c75959dbacb15.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 255
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_14695ff096ad2cab2db03c362f44355b = L.circleMarker(
+                [40.7359, -73.9911],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_14695ff096ad2cab2db03c362f44355b.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 112
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_2098e8bb5ced8c077b78780230d4ef62 = L.polyline(
+                [[40.757, -73.8364], [40.7519, -73.8441]],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1f77b4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 11.053325344517676}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_40c624f2e742d163c2ee8511ae18d31b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8edbfc34c25fd9b6928a73b062ce326f = $(`<div id="html_8edbfc34c25fd9b6928a73b062ce326f" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #1f77b4; margin: 5px 0;'>Zone 37 → 36</h4><p><b>Trips:</b> 3,022.0 (sample)<br><b>Estimated Real:</b> 120,880.0<br><b>Distance:</b> 1.2 miles<br><b>Avg Fare:</b> $11.18</p></div></div>`)[0];
+                popup_40c624f2e742d163c2ee8511ae18d31b.setContent(html_8edbfc34c25fd9b6928a73b062ce326f);
+            
+        
+
+        poly_line_2098e8bb5ced8c077b78780230d4ef62.bindPopup(popup_40c624f2e742d163c2ee8511ae18d31b)
+        ;
+
+        
+    
+    
+            poly_line_2098e8bb5ced8c077b78780230d4ef62.bindTooltip(
+                `<div>
+                     Zone 37 → 36 | 3,022.0 trips | 1.2mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_77b57fef0a2a337f7f42e530867dd58d = L.marker(
+                [40.75445, -73.84025],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_c682f87b4440ea46630f3d41aaddb907 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #1f77b4;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_77b57fef0a2a337f7f42e530867dd58d.bindTooltip(
+                `<div>
+                     Flow direction: 37 → 36
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_77b57fef0a2a337f7f42e530867dd58d.setIcon(div_icon_c682f87b4440ea46630f3d41aaddb907);
+            
+    
+            var circle_marker_4c760df5559397b8aaa69cd3287b3442 = L.circleMarker(
+                [40.757, -73.8364],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_4c760df5559397b8aaa69cd3287b3442.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 37
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f7c5a36eee6cdc077fc022f62d655d3c = L.circleMarker(
+                [40.7519, -73.8441],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_f7c5a36eee6cdc077fc022f62d655d3c.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 36
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_170f30e7d80ea0a1ad95c49c503439d8 = L.polyline(
+                [[40.7589, -73.9851], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#d62728", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 10.807669263031755}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_8c2ae50071023834b725455d37d03508 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_73a0c1d2ad87070b2f585c273ab2d9d5 = $(`<div id="html_73a0c1d2ad87070b2f585c273ab2d9d5" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #d62728; margin: 5px 0;'>Zone 161 → 265</h4><p><b>Trips:</b> 2,940.0 (sample)<br><b>Estimated Real:</b> 117,600.0<br><b>Distance:</b> 18.9 miles<br><b>Avg Fare:</b> $99.46</p></div></div>`)[0];
+                popup_8c2ae50071023834b725455d37d03508.setContent(html_73a0c1d2ad87070b2f585c273ab2d9d5);
+            
+        
+
+        poly_line_170f30e7d80ea0a1ad95c49c503439d8.bindPopup(popup_8c2ae50071023834b725455d37d03508)
+        ;
+
+        
+    
+    
+            poly_line_170f30e7d80ea0a1ad95c49c503439d8.bindTooltip(
+                `<div>
+                     Zone 161 → 265 | 2,940.0 trips | 18.9mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_d54b67cfe5c0a159defb98e1af9ed638 = L.marker(
+                [40.7001, -73.88159999999999],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_cda05f3f3a540842431f0d25fcbe2066 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #d62728;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_d54b67cfe5c0a159defb98e1af9ed638.bindTooltip(
+                `<div>
+                     Flow direction: 161 → 265
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d54b67cfe5c0a159defb98e1af9ed638.setIcon(div_icon_cda05f3f3a540842431f0d25fcbe2066);
+            
+    
+            var circle_marker_130a630f2b06a0f88294ff9c641e8516 = L.circleMarker(
+                [40.7589, -73.9851],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_130a630f2b06a0f88294ff9c641e8516.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 161
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_407a5793ba0aa8cab217c0a186b8d7bd = L.circleMarker(
+                [40.6413, -73.7781],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_407a5793ba0aa8cab217c0a186b8d7bd.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 265
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_048d67da1020b5ec893fc941308793a8 = L.polyline(
+                [[40.774, -73.8728], [40.7589, -73.9851]],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#d62728", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 10.196524865188735}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_987b348fe3eb6ef4004cfbce2311aed2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_58ff291f6ea0cb4f65faa240891e6ec7 = $(`<div id="html_58ff291f6ea0cb4f65faa240891e6ec7" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #d62728; margin: 5px 0;'>Zone 138 → 230</h4><p><b>Trips:</b> 2,736.0 (sample)<br><b>Estimated Real:</b> 109,440.0<br><b>Distance:</b> 9.7 miles<br><b>Avg Fare:</b> $66.15</p></div></div>`)[0];
+                popup_987b348fe3eb6ef4004cfbce2311aed2.setContent(html_58ff291f6ea0cb4f65faa240891e6ec7);
+            
+        
+
+        poly_line_048d67da1020b5ec893fc941308793a8.bindPopup(popup_987b348fe3eb6ef4004cfbce2311aed2)
+        ;
+
+        
+    
+    
+            poly_line_048d67da1020b5ec893fc941308793a8.bindTooltip(
+                `<div>
+                     Zone 138 → 230 | 2,736.0 trips | 9.7mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_18e6b3ed6da0777cc3ee91bd10aa1da7 = L.marker(
+                [40.76645, -73.92895],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_be83dcdb5a4a34dcf00ba90c52ef2884 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #d62728;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_18e6b3ed6da0777cc3ee91bd10aa1da7.bindTooltip(
+                `<div>
+                     Flow direction: 138 → 230
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_18e6b3ed6da0777cc3ee91bd10aa1da7.setIcon(div_icon_be83dcdb5a4a34dcf00ba90c52ef2884);
+            
+    
+            var circle_marker_2c4cb366678a4141abf30a5788e86a47 = L.circleMarker(
+                [40.774, -73.8728],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_2c4cb366678a4141abf30a5788e86a47.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 138
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_56490543b77c1b45d52b4b4dc05dd534 = L.circleMarker(
+                [40.7589, -73.9851],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_56490543b77c1b45d52b4b4dc05dd534.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 230
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_ec6a249ca92a33743a4835a8bb5d80a9 = L.polyline(
+                [[40.7589, -73.9851], [40.774, -73.8728]],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#d62728", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 9.783103654883163}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_cbef5b970b219d67982cbd99e108b0e4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2ab49d4a22f70e4645024649931cb508 = $(`<div id="html_2ab49d4a22f70e4645024649931cb508" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #d62728; margin: 5px 0;'>Zone 230 → 138</h4><p><b>Trips:</b> 2,598.0 (sample)<br><b>Estimated Real:</b> 103,920.0<br><b>Distance:</b> 10.5 miles<br><b>Avg Fare:</b> $64.33</p></div></div>`)[0];
+                popup_cbef5b970b219d67982cbd99e108b0e4.setContent(html_2ab49d4a22f70e4645024649931cb508);
+            
+        
+
+        poly_line_ec6a249ca92a33743a4835a8bb5d80a9.bindPopup(popup_cbef5b970b219d67982cbd99e108b0e4)
+        ;
+
+        
+    
+    
+            poly_line_ec6a249ca92a33743a4835a8bb5d80a9.bindTooltip(
+                `<div>
+                     Zone 230 → 138 | 2,598.0 trips | 10.5mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_7d1015121d114159f399b3d03ad03f73 = L.marker(
+                [40.76645, -73.92895],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_d935b2b624a23e690d0a0e406deea490 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #d62728;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_7d1015121d114159f399b3d03ad03f73.bindTooltip(
+                `<div>
+                     Flow direction: 230 → 138
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7d1015121d114159f399b3d03ad03f73.setIcon(div_icon_d935b2b624a23e690d0a0e406deea490);
+            
+    
+            var circle_marker_36d79f29cd74e6ae048704dfb71a2efc = L.circleMarker(
+                [40.7589, -73.9851],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_36d79f29cd74e6ae048704dfb71a2efc.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 230
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_929c8ecaf1285ba0704cf4c65a07a5ef = L.circleMarker(
+                [40.774, -73.8728],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_929c8ecaf1285ba0704cf4c65a07a5ef.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 138
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_0bb4a1f1df7639a5a2b80cb6fd44b90e = L.polyline(
+                [[40.7489, -73.8577], [40.7489, -73.8477]],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1f77b4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 8.884361893349311}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_692b916ad7c13043763ff14b778f8486 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ee151b6292842c5c985d145b1a3a2fdc = $(`<div id="html_ee151b6292842c5c985d145b1a3a2fdc" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #1f77b4; margin: 5px 0;'>Zone 255 → 256</h4><p><b>Trips:</b> 2,298.0 (sample)<br><b>Estimated Real:</b> 91,920.0<br><b>Distance:</b> 1.0 miles<br><b>Avg Fare:</b> $11.23</p></div></div>`)[0];
+                popup_692b916ad7c13043763ff14b778f8486.setContent(html_ee151b6292842c5c985d145b1a3a2fdc);
+            
+        
+
+        poly_line_0bb4a1f1df7639a5a2b80cb6fd44b90e.bindPopup(popup_692b916ad7c13043763ff14b778f8486)
+        ;
+
+        
+    
+    
+            poly_line_0bb4a1f1df7639a5a2b80cb6fd44b90e.bindTooltip(
+                `<div>
+                     Zone 255 → 256 | 2,298.0 trips | 1.0mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_4af19bdcf456ca36bde8fb2dc6bd26cc = L.marker(
+                [40.7489, -73.8527],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_532c2f5ae264fbe221ef394b5b5ded55 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #1f77b4;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_4af19bdcf456ca36bde8fb2dc6bd26cc.bindTooltip(
+                `<div>
+                     Flow direction: 255 → 256
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4af19bdcf456ca36bde8fb2dc6bd26cc.setIcon(div_icon_532c2f5ae264fbe221ef394b5b5ded55);
+            
+    
+            var circle_marker_fe799e264daa8962fb6ad9b60897c2f9 = L.circleMarker(
+                [40.7489, -73.8577],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_fe799e264daa8962fb6ad9b60897c2f9.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 255
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f6c710098cac41ce4f84e820f8e3308a = L.circleMarker(
+                [40.7489, -73.8477],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_f6c710098cac41ce4f84e820f8e3308a.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 256
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_7954eeeb63857a7d80ec1291767f42e5 = L.polyline(
+                [[40.7262, -73.9818], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#d62728", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 8.839424805272618}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_fee923d2973eb8c7dbe537ed4d9bb187 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f33b3631dea862f47d7b244f1f254335 = $(`<div id="html_f33b3631dea862f47d7b244f1f254335" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #d62728; margin: 5px 0;'>Zone 68 → 265</h4><p><b>Trips:</b> 2,283.0 (sample)<br><b>Estimated Real:</b> 91,320.0<br><b>Distance:</b> 16.5 miles<br><b>Avg Fare:</b> $76.76</p></div></div>`)[0];
+                popup_fee923d2973eb8c7dbe537ed4d9bb187.setContent(html_f33b3631dea862f47d7b244f1f254335);
+            
+        
+
+        poly_line_7954eeeb63857a7d80ec1291767f42e5.bindPopup(popup_fee923d2973eb8c7dbe537ed4d9bb187)
+        ;
+
+        
+    
+    
+            poly_line_7954eeeb63857a7d80ec1291767f42e5.bindTooltip(
+                `<div>
+                     Zone 68 → 265 | 2,283.0 trips | 16.5mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_922deaf2bcbb80cb49da2ef1a6146497 = L.marker(
+                [40.68375, -73.87995000000001],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_ab02a954371b226a1ee7303f58564242 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #d62728;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_922deaf2bcbb80cb49da2ef1a6146497.bindTooltip(
+                `<div>
+                     Flow direction: 68 → 265
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_922deaf2bcbb80cb49da2ef1a6146497.setIcon(div_icon_ab02a954371b226a1ee7303f58564242);
+            
+    
+            var circle_marker_ee9ae65ff11e6ee04181971fd086a684 = L.circleMarker(
+                [40.7262, -73.9818],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_ee9ae65ff11e6ee04181971fd086a684.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 68
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4c8f5fc672ea4dc25f23e034296cc74d = L.circleMarker(
+                [40.6413, -73.7781],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_4c8f5fc672ea4dc25f23e034296cc74d.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 265
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_e171d32ecaadfb1944f91570332be8fe = L.polyline(
+                [[40.6694, -73.9422], [40.6895, -73.9242]],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1f77b4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 8.569802276812464}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_0cc6e9add26e272a47a2163437ef584f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0a891b9ea11b774f36a6fecbacb773cb = $(`<div id="html_0a891b9ea11b774f36a6fecbacb773cb" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #1f77b4; margin: 5px 0;'>Zone 61 → 225</h4><p><b>Trips:</b> 2,193.0 (sample)<br><b>Estimated Real:</b> 87,720.0<br><b>Distance:</b> 1.6 miles<br><b>Avg Fare:</b> $12.39</p></div></div>`)[0];
+                popup_0cc6e9add26e272a47a2163437ef584f.setContent(html_0a891b9ea11b774f36a6fecbacb773cb);
+            
+        
+
+        poly_line_e171d32ecaadfb1944f91570332be8fe.bindPopup(popup_0cc6e9add26e272a47a2163437ef584f)
+        ;
+
+        
+    
+    
+            poly_line_e171d32ecaadfb1944f91570332be8fe.bindTooltip(
+                `<div>
+                     Zone 61 → 225 | 2,193.0 trips | 1.6mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_dbe3b4b4454073be43314ef99ab2901f = L.marker(
+                [40.67945, -73.9332],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_7bdef3f01c644578ef24291e725dd7cf = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #1f77b4;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_dbe3b4b4454073be43314ef99ab2901f.bindTooltip(
+                `<div>
+                     Flow direction: 61 → 225
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dbe3b4b4454073be43314ef99ab2901f.setIcon(div_icon_7bdef3f01c644578ef24291e725dd7cf);
+            
+    
+            var circle_marker_1c89dad70148f6b2207f7ea4efe528c6 = L.circleMarker(
+                [40.6694, -73.9422],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_1c89dad70148f6b2207f7ea4efe528c6.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 61
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_06c5930f0a226fea52629488110cdec1 = L.circleMarker(
+                [40.6895, -73.9242],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_06c5930f0a226fea52629488110cdec1.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 225
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_7c8e9fff148f93db4661107f39f48072 = L.polyline(
+                [[40.6694, -73.9422], [40.6694, -73.9322]],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1f77b4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 8.168364289994008}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_3b9688140de22212da421652f36a0dd4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4d467d5bdee26cae7c81c415186ea380 = $(`<div id="html_4d467d5bdee26cae7c81c415186ea380" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #1f77b4; margin: 5px 0;'>Zone 61 → 188</h4><p><b>Trips:</b> 2,059.0 (sample)<br><b>Estimated Real:</b> 82,360.0<br><b>Distance:</b> 1.7 miles<br><b>Avg Fare:</b> $13.15</p></div></div>`)[0];
+                popup_3b9688140de22212da421652f36a0dd4.setContent(html_4d467d5bdee26cae7c81c415186ea380);
+            
+        
+
+        poly_line_7c8e9fff148f93db4661107f39f48072.bindPopup(popup_3b9688140de22212da421652f36a0dd4)
+        ;
+
+        
+    
+    
+            poly_line_7c8e9fff148f93db4661107f39f48072.bindTooltip(
+                `<div>
+                     Zone 61 → 188 | 2,059.0 trips | 1.7mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_43db6db3b4a6bd2304ffe2a544a88054 = L.marker(
+                [40.6694, -73.93719999999999],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_bda9a17407da8cebdd41c1e2d6cc38d8 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #1f77b4;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_43db6db3b4a6bd2304ffe2a544a88054.bindTooltip(
+                `<div>
+                     Flow direction: 61 → 188
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_43db6db3b4a6bd2304ffe2a544a88054.setIcon(div_icon_bda9a17407da8cebdd41c1e2d6cc38d8);
+            
+    
+            var circle_marker_b0579afa8b16a34301ca89b3357ec5ac = L.circleMarker(
+                [40.6694, -73.9422],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_b0579afa8b16a34301ca89b3357ec5ac.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 61
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5dc21d4314e3e43a279f98b356933640 = L.circleMarker(
+                [40.6694, -73.9322],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_5dc21d4314e3e43a279f98b356933640.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 188
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_a8a23d2345a212b0c3af889a9447fdef = L.polyline(
+                [[40.7794, -73.9632], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#d62728", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 8.015578190533255}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_74db6d16924d57f9b08dad0259149dab = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fe7a4439316fdb4a9e9ea5fda885e776 = $(`<div id="html_fe7a4439316fdb4a9e9ea5fda885e776" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #d62728; margin: 5px 0;'>Zone 246 → 265</h4><p><b>Trips:</b> 2,008.0 (sample)<br><b>Estimated Real:</b> 80,320.0<br><b>Distance:</b> 16.2 miles<br><b>Avg Fare:</b> $78.98</p></div></div>`)[0];
+                popup_74db6d16924d57f9b08dad0259149dab.setContent(html_fe7a4439316fdb4a9e9ea5fda885e776);
+            
+        
+
+        poly_line_a8a23d2345a212b0c3af889a9447fdef.bindPopup(popup_74db6d16924d57f9b08dad0259149dab)
+        ;
+
+        
+    
+    
+            poly_line_a8a23d2345a212b0c3af889a9447fdef.bindTooltip(
+                `<div>
+                     Zone 246 → 265 | 2,008.0 trips | 16.2mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_330e47ef8894f54c7eaf5b07f1072495 = L.marker(
+                [40.710350000000005, -73.87065],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_5d1a31f5cf4dad2d27a66fdff31b153c = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #d62728;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_330e47ef8894f54c7eaf5b07f1072495.bindTooltip(
+                `<div>
+                     Flow direction: 246 → 265
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_330e47ef8894f54c7eaf5b07f1072495.setIcon(div_icon_5d1a31f5cf4dad2d27a66fdff31b153c);
+            
+    
+            var circle_marker_4dd20ba0f171a3de60fd533220273d40 = L.circleMarker(
+                [40.7794, -73.9632],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_4dd20ba0f171a3de60fd533220273d40.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 246
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_33e659ec00fc7a95ece5af0546a79c20 = L.circleMarker(
+                [40.6413, -73.7781],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_33e659ec00fc7a95ece5af0546a79c20.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 265
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_7e7dd41acdc6e029e4c38ab672ce9e44 = L.polyline(
+                [[40.7145, -73.8516], [40.7489, -73.8677]],
+                {"bubblingMouseEvents": true, "color": "#ff7f0e", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#ff7f0e", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 7.781905332534452}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_ab1da1e80899cc01c87e0455e2918c5c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c06532a56d8d9d7a7d97939436c55521 = $(`<div id="html_c06532a56d8d9d7a7d97939436c55521" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #ff7f0e; margin: 5px 0;'>Zone 76 → 35</h4><p><b>Trips:</b> 1,930.0 (sample)<br><b>Estimated Real:</b> 77,200.0<br><b>Distance:</b> 2.2 miles<br><b>Avg Fare:</b> $14.48</p></div></div>`)[0];
+                popup_ab1da1e80899cc01c87e0455e2918c5c.setContent(html_c06532a56d8d9d7a7d97939436c55521);
+            
+        
+
+        poly_line_7e7dd41acdc6e029e4c38ab672ce9e44.bindPopup(popup_ab1da1e80899cc01c87e0455e2918c5c)
+        ;
+
+        
+    
+    
+            poly_line_7e7dd41acdc6e029e4c38ab672ce9e44.bindTooltip(
+                `<div>
+                     Zone 76 → 35 | 1,930.0 trips | 2.2mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_7a43706552555f17ad38070536303e51 = L.marker(
+                [40.731700000000004, -73.85965],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_906f24d3342867b6315310568f70526a = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #ff7f0e;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_7a43706552555f17ad38070536303e51.bindTooltip(
+                `<div>
+                     Flow direction: 76 → 35
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7a43706552555f17ad38070536303e51.setIcon(div_icon_906f24d3342867b6315310568f70526a);
+            
+    
+            var circle_marker_cb4de00dcca21d17ee757bb618451fd8 = L.circleMarker(
+                [40.7145, -73.8516],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_cb4de00dcca21d17ee757bb618451fd8.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 76
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0293bd685be59b2c12950187e83cf1a0 = L.circleMarker(
+                [40.7489, -73.8677],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_0293bd685be59b2c12950187e83cf1a0.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 35
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_f98a42a990d65651513cf00cccba2d9a = L.polyline(
+                [[40.7359, -73.9911], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#d62728", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 7.683043738765728}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_9d98669457b0fdd61d232ed1db47445b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6bd232383621111343d72ac5e3ffbaf2 = $(`<div id="html_6bd232383621111343d72ac5e3ffbaf2" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #d62728; margin: 5px 0;'>Zone 234 → 265</h4><p><b>Trips:</b> 1,897.0 (sample)<br><b>Estimated Real:</b> 75,880.0<br><b>Distance:</b> 17.1 miles<br><b>Avg Fare:</b> $85.62</p></div></div>`)[0];
+                popup_9d98669457b0fdd61d232ed1db47445b.setContent(html_6bd232383621111343d72ac5e3ffbaf2);
+            
+        
+
+        poly_line_f98a42a990d65651513cf00cccba2d9a.bindPopup(popup_9d98669457b0fdd61d232ed1db47445b)
+        ;
+
+        
+    
+    
+            poly_line_f98a42a990d65651513cf00cccba2d9a.bindTooltip(
+                `<div>
+                     Zone 234 → 265 | 1,897.0 trips | 17.1mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_bd65edcafa2c06117348159aa34fa2c0 = L.marker(
+                [40.6886, -73.8846],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_728b3d409b11533aa3d3b28e9e0553be = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #d62728;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_bd65edcafa2c06117348159aa34fa2c0.bindTooltip(
+                `<div>
+                     Flow direction: 234 → 265
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bd65edcafa2c06117348159aa34fa2c0.setIcon(div_icon_728b3d409b11533aa3d3b28e9e0553be);
+            
+    
+            var circle_marker_75890784a3bc422dcd2ff520a180c500 = L.circleMarker(
+                [40.7359, -73.9911],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_75890784a3bc422dcd2ff520a180c500.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 234
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_54b8ac0fdd94b5771abc0f80bc332dda = L.circleMarker(
+                [40.6413, -73.7781],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_54b8ac0fdd94b5771abc0f80bc332dda.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 265
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_d907fb002100be0f5cbfc491701393e4 = L.polyline(
+                [[40.757, -73.8364], [40.6895, -73.9242]],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1f77b4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 7.605152786099461}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_399395b38344ccdd1fcf4407c08c127e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1b5eb05117e0e78f127532bd5e858695 = $(`<div id="html_1b5eb05117e0e78f127532bd5e858695" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #1f77b4; margin: 5px 0;'>Zone 37 → 225</h4><p><b>Trips:</b> 1,871.0 (sample)<br><b>Estimated Real:</b> 74,840.0<br><b>Distance:</b> 1.4 miles<br><b>Avg Fare:</b> $11.53</p></div></div>`)[0];
+                popup_399395b38344ccdd1fcf4407c08c127e.setContent(html_1b5eb05117e0e78f127532bd5e858695);
+            
+        
+
+        poly_line_d907fb002100be0f5cbfc491701393e4.bindPopup(popup_399395b38344ccdd1fcf4407c08c127e)
+        ;
+
+        
+    
+    
+            poly_line_d907fb002100be0f5cbfc491701393e4.bindTooltip(
+                `<div>
+                     Zone 37 → 225 | 1,871.0 trips | 1.4mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_8c6621e03d620cb3c16b915f29b8b3a0 = L.marker(
+                [40.72325, -73.8803],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_32f15e553fe02a7f5ab0e08a5451c98d = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #1f77b4;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_8c6621e03d620cb3c16b915f29b8b3a0.bindTooltip(
+                `<div>
+                     Flow direction: 37 → 225
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8c6621e03d620cb3c16b915f29b8b3a0.setIcon(div_icon_32f15e553fe02a7f5ab0e08a5451c98d);
+            
+    
+            var circle_marker_353bdb7b5d82fb3ce5b294f6c025636f = L.circleMarker(
+                [40.757, -73.8364],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_353bdb7b5d82fb3ce5b294f6c025636f.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 37
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_323ca764cfacd60399a30a2d08e5384d = L.circleMarker(
+                [40.6895, -73.9242],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_323ca764cfacd60399a30a2d08e5384d.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 225
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_405f878523c0e8fd99d6335793f88e13 = L.polyline(
+                [[40.7145, -73.8516], [40.758, -73.854]],
+                {"bubblingMouseEvents": true, "color": "#ff7f0e", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#ff7f0e", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 7.491312162971839}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_a69845f2921d120a61d26c2379503d1d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b31ab0c049f0a755280c15973a30acf4 = $(`<div id="html_b31ab0c049f0a755280c15973a30acf4" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #ff7f0e; margin: 5px 0;'>Zone 76 → 39</h4><p><b>Trips:</b> 1,833.0 (sample)<br><b>Estimated Real:</b> 73,320.0<br><b>Distance:</b> 2.5 miles<br><b>Avg Fare:</b> $13.98</p></div></div>`)[0];
+                popup_a69845f2921d120a61d26c2379503d1d.setContent(html_b31ab0c049f0a755280c15973a30acf4);
+            
+        
+
+        poly_line_405f878523c0e8fd99d6335793f88e13.bindPopup(popup_a69845f2921d120a61d26c2379503d1d)
+        ;
+
+        
+    
+    
+            poly_line_405f878523c0e8fd99d6335793f88e13.bindTooltip(
+                `<div>
+                     Zone 76 → 39 | 1,833.0 trips | 2.5mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_6ef9343e1ad831cb67095bcd99b8abc6 = L.marker(
+                [40.73625, -73.8528],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_4513e5f449a0bf92c05d0cac488e3485 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #ff7f0e;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_6ef9343e1ad831cb67095bcd99b8abc6.bindTooltip(
+                `<div>
+                     Flow direction: 76 → 39
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6ef9343e1ad831cb67095bcd99b8abc6.setIcon(div_icon_4513e5f449a0bf92c05d0cac488e3485);
+            
+    
+            var circle_marker_a69d34c389295185678e629ddd2e0130 = L.circleMarker(
+                [40.7145, -73.8516],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_a69d34c389295185678e629ddd2e0130.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 76
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ed2e8aab9e482788bb2021efb4810a70 = L.circleMarker(
+                [40.758, -73.854],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_ed2e8aab9e482788bb2021efb4810a70.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 39
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_a77db7d93cd511f2573d4a7ef4e2d8dc = L.polyline(
+                [[40.7145, -73.8516], [40.7205, -73.8441]],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1f77b4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 7.3654883163571}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_1c363fddbe7dccfc552678bc0d7028db = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5cebc81557517f47c8b34d6c16ae342f = $(`<div id="html_5cebc81557517f47c8b34d6c16ae342f" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #1f77b4; margin: 5px 0;'>Zone 76 → 77</h4><p><b>Trips:</b> 1,791.0 (sample)<br><b>Estimated Real:</b> 71,640.0<br><b>Distance:</b> 1.6 miles<br><b>Avg Fare:</b> $11.47</p></div></div>`)[0];
+                popup_1c363fddbe7dccfc552678bc0d7028db.setContent(html_5cebc81557517f47c8b34d6c16ae342f);
+            
+        
+
+        poly_line_a77db7d93cd511f2573d4a7ef4e2d8dc.bindPopup(popup_1c363fddbe7dccfc552678bc0d7028db)
+        ;
+
+        
+    
+    
+            poly_line_a77db7d93cd511f2573d4a7ef4e2d8dc.bindTooltip(
+                `<div>
+                     Zone 76 → 77 | 1,791.0 trips | 1.6mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_47919b238b473adef0fc03c9d87c8c12 = L.marker(
+                [40.7175, -73.84785],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_0c5446824e28504d41b568385fcd2ed9 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #1f77b4;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_47919b238b473adef0fc03c9d87c8c12.bindTooltip(
+                `<div>
+                     Flow direction: 76 → 77
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_47919b238b473adef0fc03c9d87c8c12.setIcon(div_icon_0c5446824e28504d41b568385fcd2ed9);
+            
+    
+            var circle_marker_0da8ce6ee9e5163a59ecc9302c256457 = L.circleMarker(
+                [40.7145, -73.8516],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_0da8ce6ee9e5163a59ecc9302c256457.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 76
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_18faaeaf8b4583f10ce4b748b857fd9d = L.circleMarker(
+                [40.7205, -73.8441],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_18faaeaf8b4583f10ce4b748b857fd9d.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 77
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_1ccc7bfe0ba6b3a5441830617478e9f9 = L.polyline(
+                [[40.6694, -73.9422], [40.6895, -73.9442]],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1f77b4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 7.36249251048532}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_52f29995c23b650cf00db759239bceaf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_783d591ec246514c0f21e06eed823531 = $(`<div id="html_783d591ec246514c0f21e06eed823531" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #1f77b4; margin: 5px 0;'>Zone 61 → 17</h4><p><b>Trips:</b> 1,790.0 (sample)<br><b>Estimated Real:</b> 71,600.0<br><b>Distance:</b> 1.6 miles<br><b>Avg Fare:</b> $12.34</p></div></div>`)[0];
+                popup_52f29995c23b650cf00db759239bceaf.setContent(html_783d591ec246514c0f21e06eed823531);
+            
+        
+
+        poly_line_1ccc7bfe0ba6b3a5441830617478e9f9.bindPopup(popup_52f29995c23b650cf00db759239bceaf)
+        ;
+
+        
+    
+    
+            poly_line_1ccc7bfe0ba6b3a5441830617478e9f9.bindTooltip(
+                `<div>
+                     Zone 61 → 17 | 1,790.0 trips | 1.6mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9604f93884f4685f5b11d711a470a876 = L.marker(
+                [40.67945, -73.94319999999999],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_b216645abbbc41e4625e1570c934057d = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #1f77b4;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_9604f93884f4685f5b11d711a470a876.bindTooltip(
+                `<div>
+                     Flow direction: 61 → 17
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9604f93884f4685f5b11d711a470a876.setIcon(div_icon_b216645abbbc41e4625e1570c934057d);
+            
+    
+            var circle_marker_ba44aeedf0bb502ee5f783f681278339 = L.circleMarker(
+                [40.6694, -73.9422],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_ba44aeedf0bb502ee5f783f681278339.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 61
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f815e8402a81f065643473d980b3ba93 = L.circleMarker(
+                [40.6895, -73.9442],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_f815e8402a81f065643473d980b3ba93.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 17
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_a1d5b941e2c5847e4d86fa1869ce885c = L.polyline(
+                [[40.7489, -73.8577], [40.7489, -73.8377]],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1f77b4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 7.248651887357699}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_9cb4952f15fe8cee37587329857d41fa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6e49591cb8e9215df124dd9a85000c1a = $(`<div id="html_6e49591cb8e9215df124dd9a85000c1a" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #1f77b4; margin: 5px 0;'>Zone 255 → 80</h4><p><b>Trips:</b> 1,752.0 (sample)<br><b>Estimated Real:</b> 70,080.0<br><b>Distance:</b> 1.4 miles<br><b>Avg Fare:</b> $13.19</p></div></div>`)[0];
+                popup_9cb4952f15fe8cee37587329857d41fa.setContent(html_6e49591cb8e9215df124dd9a85000c1a);
+            
+        
+
+        poly_line_a1d5b941e2c5847e4d86fa1869ce885c.bindPopup(popup_9cb4952f15fe8cee37587329857d41fa)
+        ;
+
+        
+    
+    
+            poly_line_a1d5b941e2c5847e4d86fa1869ce885c.bindTooltip(
+                `<div>
+                     Zone 255 → 80 | 1,752.0 trips | 1.4mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_4d5c000e707287686d21b3af6b4544a9 = L.marker(
+                [40.7489, -73.8477],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_15eb791d2d046a2311fc5ddd867fff6c = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #1f77b4;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_4d5c000e707287686d21b3af6b4544a9.bindTooltip(
+                `<div>
+                     Flow direction: 255 → 80
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4d5c000e707287686d21b3af6b4544a9.setIcon(div_icon_15eb791d2d046a2311fc5ddd867fff6c);
+            
+    
+            var circle_marker_a38b283f16aa979d0f44dee22b722924 = L.circleMarker(
+                [40.7489, -73.8577],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_a38b283f16aa979d0f44dee22b722924.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 255
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cd815ffd1740ad83109281ef37aa662a = L.circleMarker(
+                [40.7489, -73.8377],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_cd815ffd1740ad83109281ef37aa662a.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 80
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_2c280a47cbe1dc2e1f3e4ecd1ad3638b = L.polyline(
+                [[40.757, -73.8364], [40.727, -73.8364]],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1f77b4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 7.137807070101857}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_8f40dd092f4cf8b30e3664a2e80c60a1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e1e40a020848e4bf771beab07e0d2264 = $(`<div id="html_e1e40a020848e4bf771beab07e0d2264" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #1f77b4; margin: 5px 0;'>Zone 37 → 198</h4><p><b>Trips:</b> 1,715.0 (sample)<br><b>Estimated Real:</b> 68,600.0<br><b>Distance:</b> 1.8 miles<br><b>Avg Fare:</b> $13.58</p></div></div>`)[0];
+                popup_8f40dd092f4cf8b30e3664a2e80c60a1.setContent(html_e1e40a020848e4bf771beab07e0d2264);
+            
+        
+
+        poly_line_2c280a47cbe1dc2e1f3e4ecd1ad3638b.bindPopup(popup_8f40dd092f4cf8b30e3664a2e80c60a1)
+        ;
+
+        
+    
+    
+            poly_line_2c280a47cbe1dc2e1f3e4ecd1ad3638b.bindTooltip(
+                `<div>
+                     Zone 37 → 198 | 1,715.0 trips | 1.8mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b418706c71857b2691e45e4819d5b0ad = L.marker(
+                [40.742, -73.8364],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_494a4b20ce38bebe10ed32dc6c3f3dc0 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #1f77b4;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_b418706c71857b2691e45e4819d5b0ad.bindTooltip(
+                `<div>
+                     Flow direction: 37 → 198
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b418706c71857b2691e45e4819d5b0ad.setIcon(div_icon_494a4b20ce38bebe10ed32dc6c3f3dc0);
+            
+    
+            var circle_marker_0bf7ebd17c126ef6aa15d0f667e15740 = L.circleMarker(
+                [40.757, -73.8364],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_0bf7ebd17c126ef6aa15d0f667e15740.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 37
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_868fa3f53e8248a7cedf929ab273cdac = L.circleMarker(
+                [40.727, -73.8364],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_868fa3f53e8248a7cedf929ab273cdac.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 198
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_9f209a5c9a654b30a35bc7745b3107ed = L.polyline(
+                [[40.7589, -73.9851], [40.774, -73.8728]],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#d62728", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 7.089874176153385}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+        var popup_316b9369077a67191f286d5856572a40 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4546901a326199fbd4d74c601babe424 = $(`<div id="html_4546901a326199fbd4d74c601babe424" style="width: 100.0%; height: 100.0%;"><div style='font-family: Arial; width: 200px;'><h4 style='color: #d62728; margin: 5px 0;'>Zone 161 → 138</h4><p><b>Trips:</b> 1,699.0 (sample)<br><b>Estimated Real:</b> 67,960.0<br><b>Distance:</b> 9.8 miles<br><b>Avg Fare:</b> $66.35</p></div></div>`)[0];
+                popup_316b9369077a67191f286d5856572a40.setContent(html_4546901a326199fbd4d74c601babe424);
+            
+        
+
+        poly_line_9f209a5c9a654b30a35bc7745b3107ed.bindPopup(popup_316b9369077a67191f286d5856572a40)
+        ;
+
+        
+    
+    
+            poly_line_9f209a5c9a654b30a35bc7745b3107ed.bindTooltip(
+                `<div>
+                     Zone 161 → 138 | 1,699.0 trips | 9.8mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_29a3af4cca429182a7c6141327a189be = L.marker(
+                [40.76645, -73.92895],
+                {
+}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            var div_icon_1eb7bef9434fad1d2d62ac8a6fb9d63f = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 16px; color: #d62728;\"\u003e\u27a4\u003c/div\u003e",
+  "className": "flow-arrow",
+});
+        
+    
+            marker_29a3af4cca429182a7c6141327a189be.bindTooltip(
+                `<div>
+                     Flow direction: 161 → 138
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_29a3af4cca429182a7c6141327a189be.setIcon(div_icon_1eb7bef9434fad1d2d62ac8a6fb9d63f);
+            
+    
+            var circle_marker_93c6c2ab15e816be6246f54622ef37de = L.circleMarker(
+                [40.7589, -73.9851],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_93c6c2ab15e816be6246f54622ef37de.bindTooltip(
+                `<div>
+                     🟢 Origin Zone 161
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e532031ac10e8ec3583abfa67f10a159 = L.circleMarker(
+                [40.774, -73.8728],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 2}
+            ).addTo(map_617e95997e5695648ab94f604d3891f7);
+        
+    
+            circle_marker_e532031ac10e8ec3583abfa67f10a159.bindTooltip(
+                `<div>
+                     🔴 Destination Zone 138
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>

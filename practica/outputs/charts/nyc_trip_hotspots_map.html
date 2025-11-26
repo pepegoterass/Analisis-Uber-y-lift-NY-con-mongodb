@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_35d1cee8a53ffa6c4b8ae43fdecc81bf {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+                <div style="position: fixed; 
+                            top: 10px; left: 50px; width: 500px; height: 70px; 
+                            background-color: white; border:2px solid grey; z-index:9999; 
+                            font-size:14px; padding: 10px;">
+                    <b>🗺️ NYC HVFHV Trip Hotspots</b><br>
+                    Jan-Jun 2025 | Sample Rate: 1 in 40<br>
+                    <i>Circle size = Trip volume</i>
+                </div>
+            
+    
+            <div class="folium-map" id="map_35d1cee8a53ffa6c4b8ae43fdecc81bf" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_35d1cee8a53ffa6c4b8ae43fdecc81bf = L.map(
+                "map_35d1cee8a53ffa6c4b8ae43fdecc81bf",
+                {
+                    center: [40.7128, -74.006],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_5fea0961a76261298ce25a8dacb16b12 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5fea0961a76261298ce25a8dacb16b12.addTo(map_35d1cee8a53ffa6c4b8ae43fdecc81bf);
+        
+    
+            var circle_marker_07a5a8179d3dec7bc3fd777afaf4d648 = L.circleMarker(
+                [40.6413, -73.7781],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 30.0, "stroke": true, "weight": 2}
+            ).addTo(map_35d1cee8a53ffa6c4b8ae43fdecc81bf);
+        
+    
+        var popup_adecb900f012b0e7044ca9a7e7b77652 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6b77b0ba7d6fa10a5075f1021f76eedf = $(`<div id="html_6b77b0ba7d6fa10a5075f1021f76eedf" style="width: 100.0%; height: 100.0%;"><b>Zone 138</b><br>Trips (Sample): 60,179.0<br>Real Est.: 2,407,160.0<br>Avg Fare: $58.55</div>`)[0];
+                popup_adecb900f012b0e7044ca9a7e7b77652.setContent(html_6b77b0ba7d6fa10a5075f1021f76eedf);
+            
+        
+
+        circle_marker_07a5a8179d3dec7bc3fd777afaf4d648.bindPopup(popup_adecb900f012b0e7044ca9a7e7b77652)
+        ;
+
+        
+    
+    
+            circle_marker_07a5a8179d3dec7bc3fd777afaf4d648.bindTooltip(
+                `<div>
+                     Zone 138: 60,179.0 trips
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_255c688b9559054fe0a06f2c3c846b04 = L.circleMarker(
+                [40.7614, -73.9776],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 26.90008142375247, "stroke": true, "weight": 2}
+            ).addTo(map_35d1cee8a53ffa6c4b8ae43fdecc81bf);
+        
+    
+        var popup_d13ca71aa2f4354dc8e313560a49107c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8097ad1262091c72c3122d88c3a90397 = $(`<div id="html_8097ad1262091c72c3122d88c3a90397" style="width: 100.0%; height: 100.0%;"><b>Zone 132</b><br>Trips (Sample): 52,717.0<br>Real Est.: 2,108,680.0<br>Avg Fare: $71.82</div>`)[0];
+                popup_d13ca71aa2f4354dc8e313560a49107c.setContent(html_8097ad1262091c72c3122d88c3a90397);
+            
+        
+
+        circle_marker_255c688b9559054fe0a06f2c3c846b04.bindPopup(popup_d13ca71aa2f4354dc8e313560a49107c)
+        ;
+
+        
+    
+    
+            circle_marker_255c688b9559054fe0a06f2c3c846b04.bindTooltip(
+                `<div>
+                     Zone 132: 52,717.0 trips
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7ad075d4a2336ce168e666475602af46 = L.circleMarker(
+                [40.7614, -73.9776],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 19.59894647634557, "stroke": true, "weight": 2}
+            ).addTo(map_35d1cee8a53ffa6c4b8ae43fdecc81bf);
+        
+    
+        var popup_52c26c7838f3d699b01c4647b4d0ba6a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_51948fdad2faf83d6831b79afbbffde7 = $(`<div id="html_51948fdad2faf83d6831b79afbbffde7" style="width: 100.0%; height: 100.0%;"><b>Zone 161</b><br>Trips (Sample): 35,142.0<br>Real Est.: 1,405,680.0<br>Avg Fare: $40.32</div>`)[0];
+                popup_52c26c7838f3d699b01c4647b4d0ba6a.setContent(html_51948fdad2faf83d6831b79afbbffde7);
+            
+        
+
+        circle_marker_7ad075d4a2336ce168e666475602af46.bindPopup(popup_52c26c7838f3d699b01c4647b4d0ba6a)
+        ;
+
+        
+    
+    
+            circle_marker_7ad075d4a2336ce168e666475602af46.bindTooltip(
+                `<div>
+                     Zone 161: 35,142.0 trips
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_484a166580b87fc6f9dd5773bc295c07 = L.circleMarker(
+                [40.7505, -73.9934],
+                {"bubblingMouseEvents": true, "color": "darkred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.179015935791554, "stroke": true, "weight": 2}
+            ).addTo(map_35d1cee8a53ffa6c4b8ae43fdecc81bf);
+        
+    
+        var popup_40e9eb0827959c7b544e6f71447ee6bb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f1043a274d515918da10c149d9a40e4e = $(`<div id="html_f1043a274d515918da10c149d9a40e4e" style="width: 100.0%; height: 100.0%;"><b>Zone 234</b><br>Trips (Sample): 31,724.0<br>Real Est.: 1,268,960.0<br>Avg Fare: $32.26</div>`)[0];
+                popup_40e9eb0827959c7b544e6f71447ee6bb.setContent(html_f1043a274d515918da10c149d9a40e4e);
+            
+        
+
+        circle_marker_484a166580b87fc6f9dd5773bc295c07.bindPopup(popup_40e9eb0827959c7b544e6f71447ee6bb)
+        ;
+
+        
+    
+    
+            circle_marker_484a166580b87fc6f9dd5773bc295c07.bindTooltip(
+                `<div>
+                     Zone 234: 31,724.0 trips
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>
